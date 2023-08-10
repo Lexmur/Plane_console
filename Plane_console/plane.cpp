@@ -87,7 +87,7 @@ void create_plane(vector<plane>& aircraft_base)//Функция добавления самолёта в п
 		cout << "\nВведите кол-во мест, но не более 100: ";
 		int seats;
 		cin >> seats;
-		while (cin.fail() || seats > 180)//Обработка ошибочного ввода позиции
+		while (cin.fail() || seats > 100)//Обработка ошибочного ввода позиции
 		{
 			cout << "Ошибка ввода кол-ва мест" << endl;
 			cin.clear();
