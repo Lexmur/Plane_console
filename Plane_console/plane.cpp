@@ -243,6 +243,10 @@ void add_passanger(vector<plane>& aircraft_base)
 void find_passanger(vector<plane>& aircraft_base)
 {
 	planes(aircraft_base);
+	if (size_of_park == 0)
+	{
+		return;
+	}
 	int NumPlane = 0;
 	cout << "\nНомер: ";
 	cin >> NumPlane;
@@ -346,6 +350,10 @@ void find_passanger(vector<plane>& aircraft_base)
 void del_passenger(vector <plane> &aircraft_base)
 {
 	planes(aircraft_base);
+	if (size_of_park == 0)
+	{
+		return;
+	}
 	int NumPlane = 0;
 	cout << "\nНомер: ";
 	cin >> NumPlane;
