@@ -58,7 +58,7 @@ void create_plane(vector<plane>& aircraft_base)//Функция добавления самолёта в п
 		cout << "\nВведите кол-во мест, но не более 180: ";
 		int seats;
 		cin >> seats;
-		while (cin.fail() || seats > 180)//Обработка ошибочного ввода позиции
+		while (cin.fail() || seats > 180 || seats <= 0)//Обработка ошибочного ввода позиции
 		{
 			cout << "Ошибка ввода кол-ва мест" << endl;
 			cin.clear();
@@ -87,7 +87,7 @@ void create_plane(vector<plane>& aircraft_base)//Функция добавления самолёта в п
 		cout << "\nВведите кол-во мест, но не более 100: ";
 		int seats;
 		cin >> seats;
-		while (cin.fail() || seats > 100)//Обработка ошибочного ввода позиции
+		while (cin.fail() || seats > 100 || seats <= 0)//Обработка ошибочного ввода позиции
 		{
 			cout << "Ошибка ввода кол-ва мест" << endl;
 			cin.clear();
@@ -250,7 +250,7 @@ void find_passanger(vector<plane>& aircraft_base)
 	int NumPlane = 0;
 	cout << "\nНомер: ";
 	cin >> NumPlane;
-	while (cin.fail() || NumPlane > size_of_park)//Обработка ошибочного ввода позиции
+	while (cin.fail() || NumPlane > size_of_park || NumPlane <= 0)//Обработка ошибочного ввода позиции
 	{
 		cout << "Ошибка выбора позиции" << endl;
 		cin.clear();
@@ -357,7 +357,7 @@ void del_passenger(vector <plane> &aircraft_base)
 	int NumPlane = 0;
 	cout << "\nНомер: ";
 	cin >> NumPlane;
-	while (cin.fail() || NumPlane > size_of_park)//Обработка ошибочного ввода позиции
+	while (cin.fail() || NumPlane > size_of_park || NumPlane <= 0)//Обработка ошибочного ввода позиции
 	{
 		cout << "Ошибка выбора позиции" << endl;
 		cin.clear();
