@@ -138,7 +138,7 @@ void add_passanger(vector<plane>& aircraft_base)
 	int NumPlane = 0;
 	cout << "\nНомер: ";
 	cin >> NumPlane;
-	while (cin.fail() || NumPlane > size_of_park)//Обработка ошибочного ввода позиции
+	while (cin.fail() || NumPlane > size_of_park || NumPlane <= 0)//Обработка ошибочного ввода позиции
 	{
 		cout << "Ошибка выбора позиции" << endl;
 		cin.clear();
@@ -157,7 +157,7 @@ void add_passanger(vector<plane>& aircraft_base)
 	cin>> tourist.surname;//Считывние фамилии пассажира
 	cout << "\nВозраст пассажира: ";
 	cin >> tourist.age;//Считывание возраста пассажира
-	while (cin.fail())
+	while (cin.fail() || tourist.age < 0)
 	{
 		cout << "\nНекорректный ввод возраста";
 		cin.clear();
@@ -220,7 +220,7 @@ void add_passanger(vector<plane>& aircraft_base)
 	}
 	cout << "\nВыберете место: ";
 	cin >> tourist.place;
-	while (cin.fail() || tourist.place > local_plane.free_places.size() + local_plane.occupied_places.size())
+	while (cin.fail() || tourist.place > local_plane.free_places.size() + local_plane.occupied_places.size() || tourist.place <= 0)
 	{
 		cout << "\nОшибка ввода места, попробуйте указать существующую позицию";
 		cin.clear();
@@ -327,12 +327,15 @@ void find_passanger(vector<plane>& aircraft_base)
 	int num_of_place;
 	cin >> num_of_place;
 
-	while (cin.fail() || num_of_place > local_plane.free_places.size() + local_plane.occupied_places.size())
+	while (cin.fail()//Ввод буквы
+		|| num_of_place > local_plane.free_places.size() + local_plane.occupied_places.size()//Цифра больше размера самолёта
+		|| num_of_place <= 0//Меньше размеров самолёта
+		|| local_plane.free_places.find(num_of_place) != local_plane.free_places.end())//Нет места
 	{
 		cout << "\nОшибка ввода места, попробуйте указать существующую позицию";
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "Попробуйте ещё раз: ";
+		cout << "\nПопробуйте ещё раз: ";
 		cin >> num_of_place;
 	}
 
@@ -433,19 +436,16 @@ void del_passenger(vector <plane> &aircraft_base)
 	cout << "\nВыберете место: ";
 	int num_of_place;
 	cin >> num_of_place;
-	while (cin.fail() || num_of_place > local_plane.free_places.size() + local_plane.occupied_places.size())
+	while (cin.fail()//Ввод буквы
+		|| num_of_place > local_plane.free_places.size() + local_plane.occupied_places.size()//Цифра больше размера самолёта
+		|| num_of_place <= 0//Меньше размеров самолёта
+		|| local_plane.free_places.find(num_of_place) != local_plane.free_places.end())//Есть место
 	{
 		cout << "\nОшибка ввода места, попробуйте указать существующую позицию";
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "Попробуйте ещё раз: ";
+		cout << "\nПопробуйте ещё раз: ";
 		cin >> num_of_place;
-	}
-
-	if (local_plane.free_places.find(num_of_place) != local_plane.free_places.end())
-	{
-		cout << "\nЭто место ещё свободно!";
-		return;
 	}
 
 	local_plane.list_of_passangers.erase(local_plane.list_of_passangers.begin() + num_of_place - 1);
