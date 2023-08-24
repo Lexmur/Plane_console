@@ -329,6 +329,11 @@ void add_passanger(vector<plane>& aircraft_base)
 					break;
 
 				case 13:
+					if (local_plane.occupied_places.find(realplace) != local_plane.occupied_places.end())
+					{
+						tourist.place = 0;
+						break;
+					}
 					tourist.place = realplace;
 					system("cls");
 					cout << "\nВы выбрали место: " << tourist.place << endl;
@@ -345,9 +350,9 @@ void add_passanger(vector<plane>& aircraft_base)
 					Row = 0;
 					realplace += local_plane.place_in_row;
 				}
-				if (Row > (local_plane.all_places / local_plane.place_in_row))
+				if (Row > ((local_plane.all_places-1) / local_plane.place_in_row))
 				{
-					Row = (local_plane.all_places / local_plane.place_in_row);
+					Row--;
 					realplace -= local_plane.place_in_row;
 				}
 				if (Colunm < 3)
@@ -468,7 +473,7 @@ void find_passanger(vector<plane>& aircraft_base)
 
 					if (j == spec_2)
 					{
-						cout << "\t";//Проход для пассажиров
+						cout << "    ";//Проход для пассажиров
 						spec_2 += 5;
 					}
 					if (j == spec_5)
@@ -557,9 +562,9 @@ void find_passanger(vector<plane>& aircraft_base)
 					Row = 0;
 					realplace += local_plane.place_in_row;
 				}
-				if (Row > (local_plane.all_places / local_plane.place_in_row)-1)
+				if (Row > ((local_plane.all_places - 1) / local_plane.place_in_row))
 				{
-					Row = (local_plane.all_places / local_plane.place_in_row)-1;
+					Row--;
 					realplace -= local_plane.place_in_row;
 				}
 				if (Colunm < 3)
@@ -574,6 +579,14 @@ void find_passanger(vector<plane>& aircraft_base)
 				}
 				if (realplace > local_plane.all_places)
 				{
+					if (local_plane.plane_type == "SuperJet" && Colunm == 15)
+					{
+						Colunm -= 4;
+					}
+					else if (local_plane.plane_type == "Airbus" && Colunm == 19)
+					{
+						Colunm -= 4;
+					}
 					Colunm -= 4;
 					realplace--;
 				}
@@ -591,107 +604,212 @@ void find_passanger(vector<plane>& aircraft_base)
 void del_passenger(vector <plane> &aircraft_base)
 {
 	system("cls");
-	int flag = 1;
-	planes(aircraft_base,flag);
 	if (size_of_park == 0)
 	{
+		cout << "\nВ парке нет активных самолётов";
 		return;
 	}
-	int NumPlane = 0;
-	cout << "\nВыберите самолёт: ";
-	cin >> NumPlane;
-	while (cin.fail() || NumPlane > size_of_park || NumPlane <= 0)//Обработка ошибочного ввода позиции
-	{
-		cout << "Ошибка выбора позиции" << endl;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "Попробуйте ещё раз: ";
-		cin >> NumPlane;
-	}
+	int exit = 1;
+	int ActiveMenuItem = 1;
+	int ch = 0;
 
-	plane local_plane = aircraft_base[NumPlane - 1];
-
-	int j = 0;
-	if (local_plane.plane_type == "Airbus")
+	while (exit != 0)
 	{
-		if (local_plane.occupied_places.size() == 0)
-		{
-			cout << "Нет занятых мест";
-			return;
-		}
-		//Печать посадочных мест
-		for (int i = 1; i <= (local_plane.free_places.size() + local_plane.occupied_places.size()); i++)
-		{
-			if (j % 3 == 0 && j != 0)
-				cout << "\t";//Проход для пассажиров
-			if (j % 6 == 0)
-				cout << endl;
-			if (local_plane.free_places.find(i) != local_plane.free_places.end())
-			{
-				cout.width(4);
-				cout << "x";//Если место занято 
-				j++;
-				continue;
-			}
-			cout.width(4);//Ширина поля вывода посадочного места места 
-			cout << i;
-			j++;
-		}
-	}
-	else//if type == SuperJet
-	{
-		if (local_plane.occupied_places.size() == 0)
-		{
-			cout << "Нет занятых мест";
-			return;
-		}
-		int spec_2 = 2;//Флаг для вывода пробела после 2 сиденья слева
-		int spec_5 = 5;//Флаг для переноса ряда
-		//Печать посадочных мест
-		for (int i = 1; i <= local_plane.free_places.size() + local_plane.occupied_places.size(); i++)
-		{
+		system("cls");
+		int flag = 1;
+		planes(aircraft_base, flag);//Вывод доступных самолётов
+		cout << "\nВыход";
+		gotoxy(0, ActiveMenuItem);
 
-			if (j == spec_2)
-			{
-				cout << "\t";//Проход для пассажиров
-				spec_2 += 5;
-			}
-			if (j == spec_5)
-			{
-				cout << endl;
-				spec_5 += 5;
-			}
-			if (local_plane.free_places.find(i) != local_plane.free_places.end())
-			{
-				cout.width(4);
-				cout << "x";//Если место занято 
-				j++;
-				continue;
-			}
-			cout.width(4);//Ширина поля вывода посадочного места места 
-			cout << i;
-			j++;
+		ch = _getch();
+		if (ch == 224)
+		{
+			ch = _getch();
 		}
-	}
-	cout << "\nВыберете место: ";
-	int num_of_place;
-	cin >> num_of_place;
-	while (cin.fail()//Ввод буквы
-		|| num_of_place > local_plane.free_places.size() + local_plane.occupied_places.size()//Цифра больше размера самолёта
-		|| num_of_place <= 0//Меньше размеров самолёта
-		|| local_plane.free_places.find(num_of_place) != local_plane.free_places.end())//Есть место
-	{
-		cout << "\nОшибка ввода места, попробуйте указать существующую позицию";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cout << "\nПопробуйте ещё раз: ";
-		cin >> num_of_place;
-	}
 
-	local_plane.list_of_passangers.erase(local_plane.list_of_passangers.begin() + num_of_place - 1);
-	local_plane.free_places.insert(num_of_place);//Удаляем свободное место в списке свободных кресел
-	local_plane.occupied_places.erase(num_of_place);//Добавление в список занятых кресел место пассажира
-	aircraft_base[NumPlane - 1] = local_plane;
+		switch (ch)
+		{
+		case 72: ActiveMenuItem--; break;//Стрелка вверх
+
+		case 80: ActiveMenuItem++; break;//Стрелка вниз
+
+		case 13://Клавиша enter
+			if (ActiveMenuItem == size_of_park + 1)
+			{
+				exit = 0;
+				break;
+			}
+			plane local_plane = aircraft_base[ActiveMenuItem - 1];
+
+			system("cls");
+
+			int j = 0;
+			if (local_plane.plane_type == "Airbus")
+			{
+				if (local_plane.occupied_places.size() == 0)
+				{
+					cout << "Нет занятых мест";
+					return;
+				}
+				//Печать посадочных мест
+				for (int i = 1; i <= (local_plane.free_places.size() + local_plane.occupied_places.size()); i++)
+				{
+					if (j % 3 == 0 && j != 0)
+						cout << "\t";//Проход для пассажиров
+					if (j % 6 == 0 && j != 0)
+						cout << endl;
+					if (local_plane.free_places.find(i) != local_plane.free_places.end())
+					{
+						cout.width(4);
+						cout << "x";//Если место занято 
+						j++;
+						continue;
+					}
+					cout.width(4);//Ширина поля вывода посадочного места места 
+					cout << i;
+					j++;
+				}
+			}
+			else//if type == SuperJet
+			{
+				if (local_plane.occupied_places.size() == 0)
+				{
+					cout << "Нет занятых мест";
+					return;
+				}
+				int spec_2 = 2;//Флаг для вывода пробела после 2 сиденья слева
+				int spec_5 = 5;//Флаг для переноса ряда
+				//Печать посадочных мест
+				for (int i = 1; i <= local_plane.free_places.size() + local_plane.occupied_places.size(); i++)
+				{
+
+					if (j == spec_2)
+					{
+						cout << "    ";//Проход для пассажиров
+						spec_2 += 5;
+					}
+					if (j == spec_5)
+					{
+						cout << endl;
+						spec_5 += 5;
+					}
+					if (local_plane.free_places.find(i) != local_plane.free_places.end())
+					{
+						cout.width(4);
+						cout << "x";//Если место занято 
+						j++;
+						continue;
+					}
+					cout.width(4);//Ширина поля вывода посадочного места места 
+					cout << i;
+					j++;
+				}
+			}
+
+			int num_of_place = 0;
+			int Colunm = 3;
+			int Row = 0;
+			int realplace = 1;
+			while (!num_of_place)
+			{
+				gotoxy(Colunm, Row);
+
+				ch = _getch();
+				if (ch == 224)
+				{
+					ch = _getch();
+				}
+
+				switch (ch)
+				{
+				case 72: Row--; realplace -= local_plane.place_in_row; break;//Стрелка вверх
+
+				case 80: Row++; realplace += local_plane.place_in_row; break;//Стрелка вниз
+
+				case 75://Стрелка влево 
+					if (local_plane.plane_type == "SuperJet")
+					{
+						Colunm - 4 == 11 ? Colunm -= 8 : Colunm -= 4;
+						realplace--;
+					}
+					else
+					{
+						Colunm - 4 == 15 ? Colunm -= 8 : Colunm -= 4;
+						realplace--;
+					}
+					break;
+
+				case 77://Стрелка вправо
+					if (local_plane.plane_type == "SuperJet")
+					{
+						Colunm + 4 == 11 ? Colunm += 8 : Colunm += 4;
+						realplace++;
+					}
+					else
+					{
+						Colunm + 4 == 15 ? Colunm += 8 : Colunm += 4;
+						realplace++;
+					}
+					break;
+
+				case 13://Enter
+					if (local_plane.free_places.find(realplace) != local_plane.free_places.end())
+					{
+						num_of_place = 0;
+						break;
+					}
+					else
+					{
+						local_plane.list_of_passangers.erase(local_plane.list_of_passangers.begin() + realplace - 1);
+						local_plane.free_places.insert(realplace);//Добавляем свободное место в список свободных кресел
+						local_plane.occupied_places.erase(realplace);//Удаляем занятое место из списка занятых
+						aircraft_base[ActiveMenuItem - 1] = local_plane;
+						num_of_place = 1;
+						break;
+					}
+
+				}
+				if (Row < 0)
+				{
+					Row = 0;
+					realplace += local_plane.place_in_row;
+				}
+				if (Row > ((local_plane.all_places - 1) / local_plane.place_in_row))
+				{
+					Row--;
+					realplace -= local_plane.place_in_row;
+				}
+				if (Colunm < 3)
+				{
+					Colunm = 3;
+					realplace++;
+				}
+				if (Colunm > local_plane.place_in_row * 4 + 3)
+				{
+					Colunm = local_plane.place_in_row * 4 + 3;
+					realplace--;
+				}
+				if (realplace > local_plane.all_places)
+				{
+					if (local_plane.plane_type == "SuperJet" && Colunm == 15)
+					{
+						Colunm -= 4;
+					}
+					else if (local_plane.plane_type == "Airbus" && Colunm == 19)
+					{
+						Colunm -= 4;
+					}
+					Colunm -= 4;
+					realplace--;
+				}
+
+			}
+			//Обработка выход за границы меню
+
+		}
+		if (ActiveMenuItem < 1) ActiveMenuItem = 1;
+		if (ActiveMenuItem > size_of_park + 1) ActiveMenuItem = size_of_park + 1;
+	}//while
 }
 
 int main()
