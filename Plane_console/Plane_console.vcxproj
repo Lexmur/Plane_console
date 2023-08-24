@@ -127,7 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="plane.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="planes.cpp" />
+    <ClCompile Include="position_checking.cpp" />
+    <ClCompile Include="gotoxy.cpp" />
+    <ClCompile Include="create_plane.cpp" />
+    <ClCompile Include="add_passanger.cpp" />
+    <ClCompile Include="find_passanger.cpp" />
+    <ClCompile Include="del_passenger.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="plane_console_functios.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
