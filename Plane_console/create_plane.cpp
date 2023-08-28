@@ -36,9 +36,9 @@ void create_plane(vector<plane>& aircraft_base, int& size_of_park)//Функция доба
 				cout << "\tНазвание самолёта: Airbus_" << size_of_park;
 				Airbus.name_of_plane = "Airbus" + to_string(size_of_park);
 				cout << "\nВведите кол-во мест, но не более 180: ";
-				int seats;
+				unsigned seats;
 				cin >> seats;
-				while (cin.fail() || seats > 180 || seats <= 0)//Обработка ошибочного ввода позиции
+				while (cin.fail() || seats > 180 || seats == 0)//Обработка ошибочного ввода позиции
 				{
 					cout << "\nОшибка ввода кол-ва мест" << endl;
 					cin.clear();

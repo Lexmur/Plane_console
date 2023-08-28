@@ -162,10 +162,11 @@ void find_passanger(vector<plane>& aircraft_base, int size_of_park)
 					}
 					else
 					{
+						system("cls");
 						passenger tourist = local_plane.list_of_passangers[realplace - 1];
-						cout << "\nИмя: " << tourist.name;
+						cout << "Имя: " << tourist.name;
 						cout << "\nФамилия: " << tourist.surname;
-						cout << "\nВозраст: " << tourist.age;
+						cout << "\nВозраст: " << tourist.age << endl;
 						num_of_place = 1;
 						system("pause");
 					}

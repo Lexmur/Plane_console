@@ -74,7 +74,7 @@ void add_passanger(vector<plane>& aircraft_base, int size_of_park)
 			if (local_plane.plane_type == "Airbus")
 			{
 				//Печать посадочных мест
-				for (int i = 1; i <= (local_plane.free_places.size() + local_plane.occupied_places.size()); i++)
+				for (int i = 1; i <= local_plane.all_places; i++)
 				{
 					if (j % 3 == 0 && j != 0)
 						cout << "\t";//Проход для пассажиров

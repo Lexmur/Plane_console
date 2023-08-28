@@ -20,6 +20,6 @@ void planes(vector<plane>& aircraft_base, int flag, int size_of_park)
 	for (int i = 0; i < size_of_park; i++)
 	{
 		plane local_plane = aircraft_base[i];
-		cout << "\n" << i + 1 << ". Самолёт: " << local_plane.name_of_plane << ", количесвто cвободных мест - " << local_plane.free_places.size() << ", количество занятых мест - " << local_plane.occupied_places.size();
+		cout << "\n" << i + 1 << ". Самолёт: " << local_plane.name_of_plane << ", количество cвободных мест - " << local_plane.free_places.size() << ", количество занятых мест - " << local_plane.occupied_places.size();
 	}
 }
